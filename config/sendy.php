@@ -3,7 +3,7 @@
 return [
     // Sendy installation URL
     'installationUrl' => '',
-    
+
     // Default list id
     'listId' => '',
 

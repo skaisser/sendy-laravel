@@ -1,34 +1,27 @@
 <?php
 
-namespace Hocza\Sendy;
+namespace Skaisser\Sendy;
 
 use Illuminate\Support\ServiceProvider;
+use Skaisser\Sendy\Sendy;
 
 /**
  * Class SendyServiceProvider
  *
- * @package Hocza\Sendy
+ * @package Skaisser\Sendy
  */
 class SendyServiceProvider extends ServiceProvider
 {
-
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
     /**
      * Bootstrap the application services.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/sendy.php' => config_path('sendy.php')
-        ]);
+            __DIR__ . '/../config/sendy.php' => config_path('sendy.php'),
+        ], 'config');
     }
 
     /**
@@ -36,11 +29,18 @@ class SendyServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton('Hocza\Sendy\Sendy', function ($app) {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/sendy.php', 'sendy'
+        );
+
+        $this->app->singleton(Sendy::class, function ($app) {
             return new Sendy($app['config']['sendy']);
         });
+
+        // If you want to register the alias 'sendy', uncomment the following line:
+        // $this->app->alias(Sendy::class, 'sendy');
     }
 
     /**
@@ -48,8 +48,8 @@ class SendyServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
-        return ['sendy'];
+        return [Sendy::class];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hocza\Sendy\Facades;
+namespace Skaisser\Sendy\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -18,6 +18,6 @@ class Sendy extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Hocza\Sendy\Sendy';
+        return 'Skaisser\Sendy\Sendy';
     }
 }
